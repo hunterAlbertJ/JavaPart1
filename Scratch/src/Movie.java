@@ -70,8 +70,10 @@ class Movie {
      }
 
      public String toString(){
-          return "Movie: title " + getTitle() + ", releaseYear= " + getReleaseYear() +
-                  ", revenue" + getRevenue() + ", rating= " + getRating() + " genre=" + getGenre().toString();
+          return String.format("Movie: title=%s, releaseYear=%s, revenue=%,.2f, rating=%s, genre=%s",
+                  getTitle(), getReleaseYear(), getRevenue(), getRating(), getGenre());
+//          return "Movie: title " + getTitle() + ", releaseYear= " + getReleaseYear() +
+//                  ", revenue" + getRevenue() + ", rating= " + getRating() + " genre=" + getGenre().toString();
      }
 
 }

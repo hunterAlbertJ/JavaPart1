@@ -7,6 +7,9 @@ class Scissors {
         System.out.println("Scissors.class loaded into memory");
 
     }
+    public static void staticMethod(){
+        System.out.println("staticMethod() has been called");
+    }
 
 
     //fields or instance variables

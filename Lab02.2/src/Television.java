@@ -86,14 +86,14 @@ class Television {
             if(getMuted()){
                 setMuted(false);
             }
-
-
-
         } else {
-            System.out.println("ERROR: Input value for volume: " + volume + " falls outside the range of 0-100 inclusive");
-            System.out.println("Setting volume to minimum");
+            System.out.printf("Invalid volume: %s. Must be between  %s and %s. \n",
+                    volume, MIN_VOLUME, MAX_VOLUME);
+
             this.volume = MIN_VOLUME;
             System.out.println();
+//            System.out.println("ERROR: Input value for volume: " + volume + " falls outside the range of 0-100 inclusive");
+//            System.out.println("Setting volume to minimum");
         }
         setMuted(false);
     }
@@ -132,9 +132,11 @@ class Television {
 
     public String toString(){
         if(getMuted()){
-            return "Television: brand=" + getBrand() + "DisplayType: " + getDisplay() + ", volume=  " + "muted";
+      return "Television: brand=" + getBrand() + "DisplayType: " + getDisplay() + ", volume=  " + "muted";
+
         } else {
-            return "Television: brand=" + getBrand() + " DisplayType: " + getDisplay() +  ", volume=  " + getVolume();
+            return String.format("Television: Brand=%s, volume=%s, display=%s", getBrand(), getDisplay(), getVolume() );
+            // return "Television: brand=" + getBrand() + " DisplayType: " + getDisplay() +  ", volume=  " + getVolume();
         }
 
     }
