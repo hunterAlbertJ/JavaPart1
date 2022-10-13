@@ -27,7 +27,7 @@ class TelevisionClient {
         System.out.println(twoArgTele.toString());
         System.out.println();
 
-        Television threeArgTele = new Television("Samsung", 55, DisplayType.CRT);
+        Television threeArgTele = new Television("Samsung", VolumeLevel.LOUD.getVolume(), DisplayType.CRT);
         System.out.println(threeArgTele.toString());
         System.out.println("Instance count: " + Television.getInstanceCount());
 
