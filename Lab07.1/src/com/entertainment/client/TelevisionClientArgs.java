@@ -1,4 +1,4 @@
-/*
+package com.entertainment.client;/*
  * This code is sample code, provided as-is, and we make no
  * warranties as to its correctness or suitability for any purpose.
  *
@@ -6,17 +6,20 @@
  * Copyright LearningPatterns Inc.
  */
 
+import com.entertainment.DisplayType;
+import com.entertainment.Television;
+
 import java.util.Arrays;
 
 /**
  * Intended usage (by human):
- *  $ java TelevisionClientArgs <brand> <volume> <display>
+ *  $ java com.entertainment.client.TelevisionClientArgs <brand> <volume> <display>
  * 
  * Example:
- *  $ java TelevisionClientArgs Samsung 32 PLASMA
+ *  $ java com.entertainment.client.TelevisionClientArgs Samsung 32 PLASMA
  *
  * GOAL:
- *  Create an instance of Television with the specifications (values) provided by the user.
+ *  Create an instance of com.entertainment.Television with the specifications (values) provided by the user.
  */
 class TelevisionClientArgs {
 
@@ -44,7 +47,7 @@ class TelevisionClientArgs {
 //        System.out.println(convVolume);
             Television userTele = new Television(convBrand);
         } else {
-            System.out.println("Usage: java <Brand> <Volume> <DisplayType>");
+            System.out.println("Usage: java <Brand> <Volume> <com.entertainment.DisplayType>");
             //brand
             System.out.println(Arrays.toString(Television.VALID_BRANDS));
             System.out.println(Television.MAX_VOLUME + "to" + Television.MIN_VOLUME);
@@ -61,11 +64,11 @@ class TelevisionClientArgs {
         //convert each argument to proper types
         //brand needs to be string, already is
         //args[0]volume needs to be an int and is a string Integer.parseInt()
-        //args[1]display needs to be display type. need to convert DisplayType.valueOf()
+        //args[1]display needs to be display type. need to convert com.entertainment.DisplayType.valueOf()
         //args[2]arguments are args at the given index in the array passed in
 
         //Step 2
-        //create new Television object with converted values
+        //create new com.entertainment.Television object with converted values
 
         //Step 3 print the television object and congratulate the customer on their order
 
