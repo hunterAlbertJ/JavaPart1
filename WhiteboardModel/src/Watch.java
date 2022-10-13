@@ -20,29 +20,29 @@ class Watch {
         //no-op
         watchCount++;
     }
-
+    //Three arg instantiation. still calls no-op Watch method so as to increment the watch count
     public Watch(int faceSize, WatchMaterial material, String movement){
         this();
         setMovement(movement);
         setMaterial(material);
         setFaceSize(faceSize);
-
     }
-
+    //Four arg instantiation. calls above three arg constructor
     public Watch(int faceSize, WatchMaterial material, String movement, Boolean smartwatch){
         this(faceSize, material, movement);
         setSmartwatch(smartwatch);
     }
-
+    //Five arg constructor.
     public Watch(int faceSize, WatchMaterial material, String movement, Boolean smartwatch, Double accuracy){
         this(faceSize, material, movement, smartwatch);
         setAccuracy(accuracy);
     }
-
+    //takes the local system time and returns it
     void tellTime(){
         LocalTime time = LocalTime.now();
         System.out.println("The current time is " + time);
     }
+    //This is a more elegant and comprehensive version of toString
     void describe(){
         System.out.println("This watch is...");
         if(getSmartwatch()){
@@ -56,7 +56,7 @@ class Watch {
         System.out.println("That looses + / - " + getAccuracy() + " seconds a day");
         System.out.println("amount of watches: " + getWatchCount());
     }
-
+    //lots of getter and setter methods that allows us to access private methods without exposing them to the client
     public int getFaceSize() {
         return faceSize;
     }

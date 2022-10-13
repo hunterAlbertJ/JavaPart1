@@ -8,13 +8,25 @@ class Television {
     public static final int MIN_VOLUME = 0;
     public static final int MAX_VOLUME = 100;
     public DisplayType display = DisplayType.LED;
+    public static final String[] VALID_BRANDS = {"Samsung", "LG", "Sony", "Toshiba"};
 
     //properties or attributes - called instance variables or fields
     private String brand = "Toshiba"; //brand name
     private int volume = 50; //current volume
     private Boolean isMuted = false;
     private int oldVolume = 5;
+    private Boolean isValidBrand;
 
+    public static boolean isValidBrand(String brand){
+        for(String valid : VALID_BRANDS){
+            if(brand.equals(valid)){
+                return true;
+
+            }
+        }
+        return false;
+
+    }
     //CONSTRUCTORS
     public Television(){
         instanceCount++;
@@ -65,14 +77,15 @@ class Television {
     }
 
     public void setBrand(String brand) {
-        if(brand.equals("Samsung") || brand.equals("LG") || brand.equals("Sony") || brand.equals("Toshiba")){
-            this.brand = brand;
-        } else {
+       boolean valid = isValidBrand(brand);
+       if(valid) {
+           this.brand = brand;
+       } else {
             System.out.println("ERROR: Invalid input: " + brand + " brand must be Samsung. LG, Sony or Toshiba");
             System.out.println("Setting brand to \"Unknown\"");
             System.out.println();
             this.brand = "Unknown";
-        }
+       }
     }
 
     public int getVolume() {
@@ -92,8 +105,6 @@ class Television {
 
             this.volume = MIN_VOLUME;
             System.out.println();
-//            System.out.println("ERROR: Input value for volume: " + volume + " falls outside the range of 0-100 inclusive");
-//            System.out.println("Setting volume to minimum");
         }
         setMuted(false);
     }
@@ -130,12 +141,13 @@ class Television {
         this.display = display;
     }
 
+
     public String toString(){
         if(getMuted()){
       return "Television: brand=" + getBrand() + "DisplayType: " + getDisplay() + ", volume=  " + "muted";
 
         } else {
-            return String.format("Television: Brand=%s, volume=%s, display=%s", getBrand(), getDisplay(), getVolume() );
+            return String.format("Television: Brand=%s, volume=%s, display=%s", getBrand(), getVolume(), getDisplay() );
             // return "Television: brand=" + getBrand() + " DisplayType: " + getDisplay() +  ", volume=  " + getVolume();
         }
 
