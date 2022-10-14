@@ -1,81 +1,104 @@
-/*
- * This code is sample code, provided as-is, and we make no
- * warranties as to its correctness or suitability for any purpose.
- *
- * We hope that it's useful to you.  Enjoy.
- * Copyright LearningPatterns Inc.
- */
-
 package com.entertainment;
 
-import java.util.Arrays;
-
-/**
- * Class definition to model the workings of a television set.
- * This is our "business class" in the lab series.
- * It does NOT have a main() method - most classes don't.
+/*
+ * Business or system class that models the workings of a television set
+ * this class will not have a main method
  */
 public class Television {
-    // CLASS (static) variables - these are shared among all instances
+    //FIELDS
+    public static int instanceCount = 0;
     public static final int MIN_VOLUME = 0;
     public static final int MAX_VOLUME = 100;
-    public static final String[] VALID_BRANDS = { "Samsung", "LG", "Sony", "Toshiba" };
+    public DisplayType display = DisplayType.LED;
+    public static final String[] VALID_BRANDS = {"Samsung", "LG", "Sony", "Toshiba"};
 
-    private static int instanceCount = 0;
+    //properties or attributes - called instance variables or fields
+    private String brand = "Toshiba"; //brand name
+    private int volume = 50; //current volume
+    private Boolean isMuted = false;
+    private int oldVolume = 5;
+    private Boolean isValidBrand;
 
-    public static int getInstanceCount() {
-        return instanceCount;
+    //Television HAS-A Tuner
+    private final Tuner tuner = new Tuner(); // Instantiated internally, NOT exposed (no get and set tuner)
+
+    public void changeChannel(String channel){
+        tuner.setChannel(channel);
     }
 
-    // PROPERTIES or ATTRIBUTES, generally called "fields" or "instance variables"
-    // these live *inside each instance*
-    private String brand;
-    private int volume;
-    private DisplayType display = DisplayType.LED;
+    public String getCurrentChannel(){
+        return tuner.getChannel();
+    }
 
-    // CONSTRUCTORS - special methods that get called when the client says "new"
-    public Television() {
+    public static boolean isValidBrand(String brand){
+        for(String valid : VALID_BRANDS){
+            if(brand.equals(valid)){
+                return true;
+
+            }
+        }
+        return false;
+
+    }
+    //CONSTRUCTORS
+    public Television(){
         instanceCount++;
+        //no-op
     }
 
-    public Television(String brand) {
-        this();             // delegate to no-arg ctor for instance count
+    public Television(String brand){
+        this();
         setBrand(brand);
     }
-
-    public Television(String brand, int volume) {
-        this(brand);        // delegate to other ctor above for brand
-        setVolume(volume);  // handle volume myself, by delegating to setter
+    public Television(String brand, int volume){
+        this(brand);
+        setVolume(volume);
     }
 
-    public Television(String brand, int volume, DisplayType display) {
+    public Television(String brand, int volume, DisplayType display){
         this(brand, volume);
         setDisplay(display);
     }
 
-    // BUSINESS METHODS (functions) - what operations can com.entertainment.Television objects do?
-    public void turnOn() {
+    //BUSINESS METHODS
+    public void turnOn(){
         boolean isConnected = verifyInternetConnection();
-        System.out.println("Turning on your " + brand + " television to volume " + volume);
-    }
+        System.out.println("Turning on your " + getBrand() + " TV " + "To volume " + getVolume());
+}
+    public void turnOff(){
+        System.out.println("Shutting down... Goodbye");
+        System.out.println();
+}
 
-    public void turnOff() {
-        System.out.println("Shutting down...goodbye");
-    }
+    public void mute(){
+        if(!getMuted()){
+            this.oldVolume = getVolume();
+            setVolume(0);
+            setMuted(true);
 
-    // ACCESSOR METHODS - these provide "controlled access" to the (private) fields
+
+        }else {
+            setVolume(this.oldVolume);
+            setMuted(false);
+        }
+    }
+    //functions or operations - called methods in java
+
+    //ACCESSOR METHODS
     public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
-        if (isValidBrand(brand)) {
-            this.brand = brand;
-        }
-        else {
-            String brands = Arrays.toString(VALID_BRANDS);
-            System.out.println("Invalid brand: " + brand + ". Valid brands are " + brands + ".");
-        }
+       boolean valid = isValidBrand(brand);
+       if(valid) {
+           this.brand = brand;
+       } else {
+            System.out.println("ERROR: Invalid input: " + brand + " brand must be Samsung. LG, Sony or Toshiba");
+            System.out.println("Setting brand to \"Unknown\"");
+            System.out.println();
+            this.brand = "Unknown";
+       }
     }
 
     public int getVolume() {
@@ -83,13 +106,44 @@ public class Television {
     }
 
     public void setVolume(int volume) {
-        if (MIN_VOLUME <= volume && volume <= MAX_VOLUME) {
+        if(volume >= MIN_VOLUME && volume <= MAX_VOLUME){
+            this.oldVolume = volume;
             this.volume = volume;
+            if(getMuted()){
+                setMuted(false);
+            }
+        } else {
+            System.out.printf("Invalid volume: %s. Must be between  %s and %s. \n",
+                    volume, MIN_VOLUME, MAX_VOLUME);
+
+            this.volume = MIN_VOLUME;
+            System.out.println();
         }
-        else {
-            System.out.println("Invalid volume: " + volume + ". " +
-                    "Valid range is [" + MIN_VOLUME + "-" + MAX_VOLUME + "].");
-        }
+        setMuted(false);
+    }
+
+    public static int getInstanceCount(){
+        return instanceCount;
+    }
+
+    public Boolean getMuted() {
+        return isMuted;
+    }
+
+    public int getOldVolume() {
+        return oldVolume;
+    }
+
+    public void setMuted(Boolean muted) {
+        isMuted = muted;
+    }
+
+    public void setOldVolume(int oldVolume) {
+        this.oldVolume = oldVolume;
+    }
+
+    private boolean verifyInternetConnection(){
+        return true;
     }
 
     public DisplayType getDisplay() {
@@ -100,27 +154,15 @@ public class Television {
         this.display = display;
     }
 
-    private static boolean isValidBrand(String brand) {
-        boolean isValid = false;
 
-        for (String validBrand : VALID_BRANDS) {
-            if (validBrand.equalsIgnoreCase(brand)) {
-                isValid = true;
-                break;
-            }
+    public String toString(){
+        if(getMuted()){
+      return "com.entertainment.Television: brand=" + getBrand() + "com.entertainment.DisplayType: " + getDisplay() + ", volume=  " + "muted";
+
+        } else {
+            return String.format("com.entertainment.Television: Brand=%s, volume=%s, display=%s channel=%s", getBrand(), getVolume(), getDisplay(), getCurrentChannel() );
+            // return "com.entertainment.Television: brand=" + getBrand() + " com.entertainment.DisplayType: " + getDisplay() +  ", volume=  " + getVolume();
         }
-        return isValid;
-    }
 
-    private boolean verifyInternetConnection() {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.entertainment.Television" +
-                ": brand=" + getBrand() +
-                ", volume=" + getVolume() +
-                ", display=" + getDisplay();
     }
 }

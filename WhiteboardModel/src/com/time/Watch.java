@@ -1,11 +1,14 @@
 package com.time;
 
 import java.time.LocalTime;
+import java.util.Arrays;
 
 public class Watch {
     //static fields that allow us to have data validation in the setters
     public static int MIN_FACESIZE = 30;
     public static int MAX_FACESIZE = 50;
+    public String[] testArr = new String[ WatchMaterial.values().length];
+
 
 
     //These values are placeholders and/or if a watch is instantiated without any arguments
@@ -15,12 +18,18 @@ public class Watch {
     private Boolean smartwatch = false;
     private Double accuracy = 0.0;
 
+
     //counter for amount of watches in collection
     public static int watchCount = 0;
 
     public Watch(){
         //no-op
         watchCount++;
+        for(int i = 0; i < WatchMaterial.values().length; i++){
+            testArr[i] = WatchMaterial.values()[i].getMaterial();
+        }
+
+        System.out.println(Arrays.toString(testArr).substring(1, Arrays.toString(testArr).length() - 1));
     }
     //Three arg instantiation. still calls no-op com.time.Watch method so as to increment the watch count
     public Watch(int faceSize, WatchMaterial material, String movement){
@@ -83,7 +92,10 @@ public class Watch {
 
         } else {
             System.out.println(material.toString().getClass());
-            System.out.println("Error! invalid material " + material + ". Material must be Gold, Silver, Steel or Aluminum.");
+            System.out.println("Error! invalid material " + material );
+            for(WatchMaterial test: WatchMaterial.values()){
+                System.out.println(test);
+            }
         }
     }
 

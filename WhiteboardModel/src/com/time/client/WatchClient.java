@@ -12,7 +12,7 @@ class WatchClient {
 //        System.out.println();
 //        System.out.println(mySmartWatch.toString());
 
-        Watch myRolex = new Watch(9, WatchMaterial.GOLD, "Self-Winding", false);
+        Watch myRolex = new Watch(30, WatchMaterial.GOLD, "Self-Winding", false);
         myRolex.toString();
         myRolex.describe();
 
